@@ -574,8 +574,9 @@ const PWAInstall = {
   banner: null,
   installBtn: null,
   dismissBtn: null,
-  dismissedKey: 'dbc-pwa-install-dismissed-session',
-  installedKey: 'dbc-pwa-installed',
+  installedKey: 'dbc-pwa-installed-v2',
+  dismissedThisView: false,
+  fallbackTimer: null,
 
   init() {
     this.banner = document.getElementById('pwa-install-banner');
@@ -595,14 +596,26 @@ const PWAInstall = {
       this.hide();
     }
 
+    // Some browsers (notably iOS Safari) never fire beforeinstallprompt.
+    // Show the compact helper if the card is not installed and the user has not dismissed this page view.
+    this.fallbackTimer = window.setTimeout(() => {
+      if (!this.deferredPrompt && !this.dismissedThisView && !this.isKnownInstalled()) {
+        this.show();
+      }
+    }, 1200);
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
+      if (this.fallbackTimer) {
+        window.clearTimeout(this.fallbackTimer);
+        this.fallbackTimer = null;
+      }
 
       // If the browser fires this event, the app is installable from this context.
       localStorage.removeItem(this.installedKey);
 
-      if (!sessionStorage.getItem(this.dismissedKey)) {
+      if (!this.dismissedThisView) {
         this.show();
       }
     });
@@ -621,7 +634,7 @@ const PWAInstall = {
       this.dismissBtn.addEventListener('click', (event) => {
         event.preventDefault();
         event.stopPropagation();
-        sessionStorage.setItem(this.dismissedKey, '1');
+        this.dismissedThisView = true;
         this.hide();
       });
     }
@@ -634,8 +647,12 @@ const PWAInstall = {
       window.navigator.standalone === true;
   },
 
+  isKnownInstalled() {
+    return this.isStandalone() || localStorage.getItem(this.installedKey);
+  },
+
   show() {
-    if (!this.banner || this.isStandalone() || localStorage.getItem(this.installedKey)) return;
+    if (!this.banner || this.dismissedThisView || this.isKnownInstalled()) return;
     this.banner.hidden = false;
     this.banner.setAttribute('aria-hidden', 'false');
   },
@@ -648,22 +665,33 @@ const PWAInstall = {
 
   async promptInstall() {
     if (!this.deferredPrompt) {
-      sessionStorage.setItem(this.dismissedKey, '1');
+      this.dismissedThisView = true;
       this.hide();
+      this.showManualInstallHelp();
       return;
     }
 
     this.deferredPrompt.prompt();
     const choice = await this.deferredPrompt.userChoice;
 
-    if (choice && choice.outcome === 'accepted') {
-      localStorage.setItem(this.installedKey, '1');
-    } else {
-      sessionStorage.setItem(this.dismissedKey, '1');
+    // Only appinstalled / standalone mode marks the card as installed.
+    // A cancelled prompt should reappear after a page reload if still not installed.
+    if (!choice || choice.outcome !== 'accepted') {
+      this.dismissedThisView = true;
     }
 
     this.deferredPrompt = null;
     this.hide();
+  },
+
+  showManualInstallHelp() {
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const message = isIOS
+      ? 'To add this card: tap Share, then Add to Home Screen.'
+      : 'Use your browser menu and choose Install app or Add to Home screen.';
+
+    window.alert(message);
   }
 };
 
