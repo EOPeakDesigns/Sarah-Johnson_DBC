@@ -62,13 +62,22 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 1;
+  transform: none;
 }
 
-/* Entry animation for business card */
-@keyframes fadeIn {
+/* Optional polish on larger screens — no blank first paint */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .business-card.is-enhanced {
+    animation: cardReveal 0.45s ease-out;
+  }
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0.92;
+    transform: translateY(8px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
@@ -130,11 +139,9 @@ body {
 .logo svg {
   height: 40px;
   fill: var(--primary-color);
-  /* Elegant entrance animation */
-  opacity: 0;
-  transform: translateY(-10px) scale(0.9);
-  animation: logoEntrance 1s ease-out 0.3s forwards, 
-             logoFloat 3s ease-in-out 1.5s infinite,
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: logoFloat 3s ease-in-out 1s infinite,
              logoGlow 4s ease-in-out 2s infinite;
   /* Filter for glow effect */
   filter: drop-shadow(0 0 0 transparent);

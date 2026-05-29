@@ -10,11 +10,45 @@
    ============================================================ */
 
 /**
+ * Opens compose in the Gmail app on mobile (iOS / Android), Gmail web on desktop.
+ * @param {string} email - Recipient email address
+ */
+function openGmailCompose(email) {
+  const address = (email || '').trim();
+  if (!address) return;
+
+  const encoded = encodeURIComponent(address);
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  const isAndroid = /Android/i.test(ua);
+  const webCompose =
+    'https://mail.google.com/mail/?view=cm&fs=1&to=' + encoded;
+
+  if (isIOS) {
+    window.location.href = 'googlegmail:///co?to=' + encoded;
+    return;
+  }
+
+  if (isAndroid) {
+    window.location.href =
+      'intent://send?to=' + encoded +
+      '#Intent;scheme=mailto;package=com.google.android.gm;S.browser_fallback_url=' +
+      encodeURIComponent(webCompose) +
+      ';end';
+    return;
+  }
+
+  window.open(webCompose, '_blank', 'noopener,noreferrer');
+}
+
+/**
  * Handles click events on contact items
  * @param {string} type - Type of contact action (whatsapp, email, website, location)
  * @param {Event} event - The click event object
  */
 function handleContactClick(type, event) {
+  const data = getCardData();
+
   switch(type) {
     case 'whatsapp':
       // Open WhatsApp chat with the specified number
@@ -22,9 +56,7 @@ function handleContactClick(type, event) {
       window.open('https://wa.me/13055550123', '_blank');
       break;
     case 'email':
-      // Open Gmail compose window with recipient pre-filled
-      // Opens in new tab for better user experience
-      window.open('https://mail.google.com/mail/?view=cm&to=Sjohn@gmail.com', '_blank');
+      openGmailCompose(data.email || 'Sjohn@gmail.com');
       break;
     case 'website':
       window.open('https://www.SjohnHome.com', '_blank');
