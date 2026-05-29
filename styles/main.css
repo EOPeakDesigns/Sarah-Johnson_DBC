@@ -909,6 +909,10 @@ body.modal-open {
   animation: pwaToastIn 0.35s ease-out;
 }
 
+.pwa-install-banner[hidden] {
+  display: none !important;
+}
+
 @keyframes pwaToastIn {
   from {
     opacity: 0;

@@ -12,11 +12,11 @@
 
 const ASSET_VERSIONS = {
 
-  CSS_VERSION: '1.0.8',
+  CSS_VERSION: '1.0.9',
 
   MODAL_CSS_VERSION: '1.0.0',
 
-  JS_VERSION: '1.0.8',
+  JS_VERSION: '1.0.9',
 
   VIDEO_HANDLER_VERSION: '2',
 

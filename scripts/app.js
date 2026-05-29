@@ -574,25 +574,43 @@ const PWAInstall = {
   banner: null,
   installBtn: null,
   dismissBtn: null,
-  storageKey: 'dbc-pwa-install-dismissed',
+  dismissedKey: 'dbc-pwa-install-dismissed-session',
+  installedKey: 'dbc-pwa-installed',
 
   init() {
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-      return;
-    }
-
     this.banner = document.getElementById('pwa-install-banner');
     this.installBtn = document.getElementById('pwa-install-btn');
     this.dismissBtn = document.getElementById('pwa-install-dismiss');
 
     if (!this.banner) return;
 
+    this.hide();
+
+    if (this.isStandalone()) {
+      localStorage.setItem(this.installedKey, '1');
+      return;
+    }
+
+    if (localStorage.getItem(this.installedKey)) {
+      this.hide();
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
-      if (!localStorage.getItem(this.storageKey)) {
-        this.banner.hidden = false;
+
+      // If the browser fires this event, the app is installable from this context.
+      localStorage.removeItem(this.installedKey);
+
+      if (!sessionStorage.getItem(this.dismissedKey)) {
+        this.show();
       }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem(this.installedKey, '1');
+      this.deferredPrompt = null;
+      this.hide();
     });
 
     if (this.installBtn) {
@@ -600,19 +618,52 @@ const PWAInstall = {
     }
 
     if (this.dismissBtn) {
-      this.dismissBtn.addEventListener('click', () => {
-        localStorage.setItem(this.storageKey, '1');
-        this.banner.hidden = true;
+      this.dismissBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        sessionStorage.setItem(this.dismissedKey, '1');
+        this.hide();
       });
     }
   },
 
-  async promptInstall() {
-    if (!this.deferredPrompt) return;
-    this.deferredPrompt.prompt();
-    await this.deferredPrompt.userChoice;
-    this.deferredPrompt = null;
+  isStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches ||
+      window.navigator.standalone === true;
+  },
+
+  show() {
+    if (!this.banner || this.isStandalone() || localStorage.getItem(this.installedKey)) return;
+    this.banner.hidden = false;
+    this.banner.setAttribute('aria-hidden', 'false');
+  },
+
+  hide() {
+    if (!this.banner) return;
     this.banner.hidden = true;
+    this.banner.setAttribute('aria-hidden', 'true');
+  },
+
+  async promptInstall() {
+    if (!this.deferredPrompt) {
+      sessionStorage.setItem(this.dismissedKey, '1');
+      this.hide();
+      return;
+    }
+
+    this.deferredPrompt.prompt();
+    const choice = await this.deferredPrompt.userChoice;
+
+    if (choice && choice.outcome === 'accepted') {
+      localStorage.setItem(this.installedKey, '1');
+    } else {
+      sessionStorage.setItem(this.dismissedKey, '1');
+    }
+
+    this.deferredPrompt = null;
+    this.hide();
   }
 };
 
