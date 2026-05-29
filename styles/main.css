@@ -1,0 +1,1162 @@
+/**
+ * Digital Business Card - Main Stylesheet
+ * Project: EOPeak Corporate Design
+ * Author: Eng. Eslam Osama Saad
+ * Description: Complete styling for the digital business card application
+ */
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   ============================================================ */
+:root {
+  --primary-color: #C9A25D;
+  --text-color: #222222;
+  --bg-color: #FFFFFF;
+  --light-gray: #f5f5f5;
+  --divider-color: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================
+   GLOBAL RESET & BASE STYLES
+   ============================================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  padding: 20px;
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+}
+
+/* ============================================================
+   BUSINESS CARD CONTAINER
+   ============================================================ */
+.business-card {
+  width: 100%;
+  max-width: 380px;
+  min-height: 760px;
+  background-color: var(--bg-color);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Entry animation for business card */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   HEADER SECTION
+   ============================================================ */
+.header {
+  padding: 24px;
+  position: relative;
+}
+
+/* Logo styling with elegant animations */
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  position: relative;
+  cursor: pointer;
+  overflow: visible;
+}
+
+/* Subtle shine effect overlay */
+.logo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: logoShine 6s ease-in-out 3s infinite;
+  pointer-events: none;
+}
+
+/* Shine sweep animation */
+@keyframes logoShine {
+  0%, 90% {
+    left: -100%;
+    opacity: 0;
+  }
+  95% {
+    left: 100%;
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.logo svg {
+  height: 40px;
+  fill: var(--primary-color);
+  /* Elegant entrance animation */
+  opacity: 0;
+  transform: translateY(-10px) scale(0.9);
+  animation: logoEntrance 1s ease-out 0.3s forwards, 
+             logoFloat 3s ease-in-out 1.5s infinite,
+             logoGlow 4s ease-in-out 2s infinite;
+  /* Filter for glow effect */
+  filter: drop-shadow(0 0 0 transparent);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              filter 0.3s ease;
+}
+
+/* Interactive hover effect - only on hover-capable devices */
+@media (hover: hover) and (pointer: fine) {
+  .logo:hover svg {
+    transform: translateY(-6px) scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(201, 162, 93, 0.6));
+  }
+}
+
+/* Entrance animation - Crown appears gracefully */
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Gentle floating animation - Subtle levitation effect */
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1);
+  }
+}
+
+/* Subtle glow pulse - Premium shimmer effect */
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(201, 162, 93, 0.4));
+  }
+}
+
+/* Profile media — portrait frame + in-frame play affordance */
+.profile-media {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  background-color: var(--bg-color);
+}
+
+.profile-media-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.profile-media-trigger:focus {
+  outline: none;
+}
+
+body.keyboard-navigation .profile-media-trigger:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+  border-radius: 8px 8px 0 0;
+}
+
+.profile-photo {
+  display: block;
+  width: 100%;
+  height: clamp(180px, 50vw, 220px);
+  max-height: 220px;
+  object-fit: contain;
+  object-position: center;
+  background-color: var(--bg-color);
+  pointer-events: none;
+}
+
+/* Play FAB — bottom-right on portrait frame */
+.profile-play-fab {
+  position: absolute;
+  inset-inline-end: 10px;
+  inset-block-end: 10px;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  box-shadow: 0 4px 14px rgba(201, 162, 93, 0.45);
+  pointer-events: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-play-fab svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--bg-color);
+  margin-left: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .profile-media-trigger:hover .profile-play-fab {
+    transform: scale(1.06);
+    box-shadow: 0 6px 18px rgba(201, 162, 93, 0.55);
+  }
+}
+
+.profile-media.is-unavailable .profile-play-fab {
+  opacity: 0.45;
+}
+
+.profile-media.is-unavailable {
+  pointer-events: none;
+}
+
+.profile-media--static .profile-play-fab {
+  display: none;
+}
+
+.profile-media--static .profile-media-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Name and title styling */
+.name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  color: var(--text-color);
+}
+
+/* Title + icon actions — single compact row */
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+  min-height: 40px;
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.95rem, 3vw, 1.2rem);
+  color: var(--primary-color);
+  margin-bottom: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.title-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 1px solid var(--divider-color);
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .title-action-btn:hover {
+    background-color: rgba(201, 162, 93, 0.1);
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+  }
+}
+
+.title-action-btn:focus {
+  outline: none;
+}
+
+body.keyboard-navigation .title-action-btn:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.title-action-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--primary-color);
+  pointer-events: none;
+}
+
+/* ============================================================
+   CONTACT GRID SECTION
+   ============================================================ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  border-top: 1px solid var(--divider-color);
+  border-left: 1px solid var(--divider-color);
+}
+
+.contact-item {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-right: 1px solid var(--divider-color);
+  border-bottom: 1px solid var(--divider-color);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effect only on devices with hover capability (desktop/laptop with mouse) */
+/* Prevents hover effects on touch devices (mobile/tablet) */
+@media (hover: hover) and (pointer: fine) {
+  .contact-item:hover {
+    background-color: var(--light-gray);
+  }
+}
+
+/* Main contact icon only — excludes corner action buttons */
+.contact-item > svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.contact-label {
+  font-size: clamp(0.65rem, 2vw, 0.75rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.contact-text {
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  font-weight: 400;
+}
+
+/* Corner quick actions — copy (right) & call (left) on WhatsApp tile */
+.copy-btn,
+.call-btn {
+  position: absolute;
+  top: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  padding: 0;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.copy-btn {
+  right: 6px;
+}
+
+.call-btn {
+  left: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .copy-btn:hover,
+  .call-btn:hover {
+    background-color: rgba(201, 162, 93, 0.1);
+    transform: scale(1.08);
+  }
+}
+
+.copy-btn:focus,
+.call-btn:focus {
+  outline: none;
+}
+
+body.keyboard-navigation .copy-btn:focus,
+body.keyboard-navigation .call-btn:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.copy-btn svg,
+.call-btn svg {
+  width: 17px;
+  height: 17px;
+  fill: var(--primary-color);
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.copy-btn svg {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Default state: show copy icon, hide check icon */
+.copy-btn .copy-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.copy-btn .check-icon {
+  opacity: 0;
+  transform: scale(0);
+  position: absolute;
+}
+
+/* Copied state: hide copy icon, show check icon */
+.copy-btn.copied .copy-icon {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.copy-btn.copied .check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============================================================
+   SOCIAL SECTION
+   ============================================================ */
+.social-section {
+  padding: 24px 24px 16px;
+  text-align: center;
+}
+
+.social-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  color: var(--text-color);
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.social-icon {
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+}
+
+/* Completely suppress default focus outline for social icons */
+/* Focus will only show when keyboard navigation is actively used (Tab key) */
+.social-icon:focus,
+.social-icon:focus-visible {
+  outline: none;
+}
+
+/* Show focus outline ONLY when keyboard Tab navigation is active */
+/* This prevents unwanted outlines from console open/close, programmatic focus, etc. */
+body.keyboard-navigation .social-icon:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Hover effect only on devices with hover capability (desktop/laptop with mouse) */
+/* Prevents hover effects on touch devices and unwanted focus frames */
+@media (hover: hover) and (pointer: fine) {
+  .social-icon:hover {
+    transform: scale(1.1);
+    background-color: rgba(201, 162, 93, 0.1);
+  }
+}
+
+.social-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--primary-color);
+}
+
+/* Ripple effect animation */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   FOOTER SECTION
+   ============================================================ */
+.footer {
+  padding: 0 24px 24px;
+  margin-top: auto;
+  text-align: center;
+}
+
+/* Professional slogan styling - Single line */
+.slogan-main {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.9rem, 2.8vw, 1rem);
+  font-weight: 600;
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+.slogan-tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+  font-weight: 400;
+  color: var(--primary-color);
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+/* Legacy classes - keeping for backward compatibility if needed */
+.social-handle {
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  margin-bottom: 4px;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+.website-link {
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.website-link:hover {
+  opacity: 0.8;
+}
+
+.website-link:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   QR CODE MODAL
+   ============================================================ */
+
+/* Modal overlay and container */
+.qr-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.qr-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* Dark overlay backdrop */
+.qr-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Modal content container */
+.qr-modal-container {
+  position: relative;
+  background-color: var(--bg-color);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: calc(100% - 40px);
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 10000;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close button */
+.qr-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10001;
+  padding: 0;
+}
+
+.qr-modal-close:hover {
+  background-color: var(--light-gray);
+  transform: scale(1.1);
+}
+
+.qr-modal-close:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.qr-modal-close svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--text-color);
+}
+
+/* Modal content padding */
+.qr-modal-content {
+  padding: 40px 32px 32px;
+  text-align: center;
+}
+
+/* Modal title */
+.qr-modal-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+
+/* QR code wrapper */
+.qr-code-wrapper {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: var(--bg-color);
+  border-radius: 12px;
+  border: 2px solid var(--divider-color);
+  display: inline-block;
+}
+
+/* QR code image */
+.qr-code-image {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Image loading state */
+.qr-code-image:not([src]),
+.qr-code-image[src=""] {
+  min-height: 280px;
+  background-color: var(--light-gray);
+}
+
+/* Download button */
+.qr-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(201, 162, 93, 0.3);
+}
+
+.qr-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(201, 162, 93, 0.4);
+  background-color: #B8914D;
+}
+
+.qr-download-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(201, 162, 93, 0.3);
+}
+
+.qr-download-btn:focus-visible {
+  outline: 3px solid rgba(201, 162, 93, 0.5);
+  outline-offset: 2px;
+}
+
+.qr-download-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Error state for image */
+.qr-code-image.error {
+  border: 2px solid #e74c3c;
+  background-color: #fef5f5;
+}
+
+.qr-error-message {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+.qr-error-message code {
+  font-size: 0.8em;
+}
+
+/* Skip link — visible on keyboard focus only */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 100000;
+  padding: 12px 16px;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: max(16px, env(safe-area-inset-top));
+  outline: 3px solid rgba(201, 162, 93, 0.5);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* PWA install toast — compact, bottom-right on all viewports */
+.pwa-install-banner {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  left: auto;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  max-width: min(288px, calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  padding: 8px 8px 8px 12px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--divider-color);
+  border-radius: 999px;
+  box-shadow: 0 6px 20px var(--shadow-color);
+  animation: pwaToastIn 0.35s ease-out;
+}
+
+@keyframes pwaToastIn {
+  from {
+    opacity: 0;
+    transform: translate(8px, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.pwa-install-text {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pwa-install-btn {
+  flex-shrink: 0;
+  min-height: 36px;
+  min-width: 44px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.72rem, 2.4vw, 0.8rem);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pwa-install-btn:hover {
+    background-color: #B8914D;
+    transform: scale(1.02);
+  }
+}
+
+.pwa-install-btn:focus {
+  outline: none;
+}
+
+body.keyboard-navigation .pwa-install-btn:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.pwa-install-dismiss {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pwa-install-dismiss:hover {
+    background-color: var(--light-gray);
+  }
+}
+
+.pwa-install-dismiss svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--text-color);
+  opacity: 0.55;
+}
+
+.pwa-install-dismiss:focus {
+  outline: none;
+}
+
+body.keyboard-navigation .pwa-install-dismiss:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+@media (max-width: 340px) {
+  .pwa-install-banner {
+    max-width: calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    padding: 7px 7px 7px 10px;
+    gap: 6px;
+  }
+
+  .pwa-install-text {
+    white-space: normal;
+    max-width: 9.5rem;
+    font-size: 0.68rem;
+  }
+
+  .pwa-install-btn {
+    padding: 7px 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .business-card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .logo svg {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    filter: none;
+  }
+
+  .logo::after {
+    animation: none;
+  }
+
+  .pwa-install-banner {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+/* Extra small screens - Optimized spacing and sizing */
+@media (max-width: 340px) {
+  /* Contact grid maintains 2x2 layout at all breakpoints */
+  /* Grid naturally adjusts with clamp() font sizing */
+  
+  /* Profile photo responsive height for small screens */
+  .profile-photo {
+    height: clamp(160px, 48vw, 200px);
+    max-height: 200px;
+  }
+  
+  /* Reduce contact item padding on very small screens */
+  .contact-item {
+    padding: 12px 8px;
+  }
+  
+  /* Optimize social section spacing for small screens */
+  .social-section {
+    padding: 10px 12px 6px;
+  }
+  
+  .social-icons {
+    margin-bottom: 2px;
+  }
+  
+  /* QR Modal responsive adjustments */
+  .qr-modal-content {
+    padding: 32px 20px 24px;
+  }
+  
+  .qr-code-wrapper {
+    padding: 12px;
+  }
+  
+  .qr-download-btn {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Very small screens - Ultra-compact spacing optimization */
+@media (max-width: 320px) {
+  /* Reduce business card min-height for compact 320px layout */
+  /* Allows content to determine height naturally, reducing excessive spacing */
+  .business-card {
+    min-height: 660px;
+  }
+
+  .title-row {
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: clamp(0.88rem, 3.2vw, 1rem);
+  }
+
+  .title-actions {
+    gap: 4px;
+  }
+
+  .title-action-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .title-action-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* Profile photo optimized for smallest screens */
+  .profile-photo {
+    height: clamp(150px, 45vw, 180px);
+    max-height: 180px;
+  }
+
+  .profile-play-fab {
+    width: 40px;
+    height: 40px;
+    inset-inline-end: 8px;
+    inset-block-end: 8px;
+  }
+
+  .profile-play-fab svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Ultra-compact spacing for 320px - Minimal gap between sections */
+  .social-section {
+    padding: 8px 20px 0px; /* Reduced top from 16px to 8px for tighter spacing */
+  }
+  
+  .social-heading {
+    margin-bottom: 8px; /* Reduced from 16px for compact layout */
+  }
+  
+  .social-icons {
+    margin-bottom: 0px; /* No bottom margin for minimal spacing */
+  }
+  
+  .footer {
+    padding: 0 20px 20px;
+  }
+}
+

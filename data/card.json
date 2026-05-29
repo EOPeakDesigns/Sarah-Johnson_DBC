@@ -1,0 +1,20 @@
+{
+  "lang": "en",
+  "fullName": "Sarah Johnson",
+  "title": "Real Estate Agent",
+  "email": "Sjohn@gmail.com",
+  "phone": "+13055550123",
+  "website": "https://www.SjohnHome.com",
+  "location": "Miami, FL",
+  "organization": "Sarah Johnson Homes",
+  "slogan": "Your Vision, My Mission",
+  "shareUrl": "",
+  "profileImage": "https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083386_960_720.jpg",
+  "showcaseVideo": {
+    "enabled": true,
+    "type": "embed",
+    "embedUrl": "https://www.youtube.com/embed/2Ri8f-wqonE?playsinline=1&rel=0&modestbranding=1",
+    "fileSrc": "",
+    "poster": ""
+  }
+}

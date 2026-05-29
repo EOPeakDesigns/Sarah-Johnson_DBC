@@ -1,0 +1,26 @@
+{
+  "name": "Sarah Johnson - Real Estate Agent",
+  "short_name": "Sarah Johnson",
+  "description": "Digital business card for Sarah Johnson, Real Estate Agent in Miami, FL.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFFFF",
+  "theme_color": "#C9A25D",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "assets/favicon-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/favicon-logo-large.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

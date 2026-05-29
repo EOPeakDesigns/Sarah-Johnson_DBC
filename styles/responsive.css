@@ -1,0 +1,27 @@
+/**
+ * Responsive overrides — video modal mobile / PWA
+ */
+
+@media (max-width: 768px) {
+  .video-modal-container {
+    width: min(94vw, 420px);
+    max-height: min(90dvh, 90vh);
+    overflow-y: auto;
+  }
+
+  .video-modal-content {
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .video-embed {
+    min-height: 180px;
+  }
+
+  @supports (aspect-ratio: 16 / 9) {
+    .video-embed {
+      min-height: 0;
+    }
+  }
+}

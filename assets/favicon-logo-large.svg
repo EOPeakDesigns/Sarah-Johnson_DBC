@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" 
+     viewBox="0 0 2048 2048" 
+     width="2048" 
+     height="2048"
+     role="img"
+     aria-label="Sarah Johnson Professional Logo - Large Format for QR Code Center">
+  <!-- 
+    Extra Large Format Favicon/Logo for High-Resolution QR Code Embedding
+    Project: EOPeak Corporate Design
+    Author: Eng. Eslam Osama Saad
+    Purpose: Ultra-high-resolution version for premium QR code generation
+    Dimensions: 2048x2048 pixels (maximum quality for center logo embedding)
+    Design: Gold background (#C9A25D) with white initials "SJ"
+    Usage: Center logo in QR codes, print materials, high-DPI displays
+  -->
+  
+  <!-- Gold background with rounded corners -->
+  <!-- Border radius: 245.76 (12% of 2048, maintaining original proportions) -->
+  <rect width="2048" 
+        height="2048" 
+        fill="#C9A25D" 
+        rx="245.76" 
+        ry="245.76"/>
+  
+  <!-- White initials "SJ" - centered and optimized -->
+  <!-- Font size: ~860px (proportional scaling from original) -->
+  <!-- Perfect center positioning for QR code integration -->
+  <text x="1024" 
+        y="1024" 
+        font-family="sans-serif" 
+        font-size="860" 
+        font-weight="700" 
+        fill="#FFFFFF" 
+        text-anchor="middle" 
+        dominant-baseline="central"
+        letter-spacing="0">
+    SJ
+  </text>
+</svg>
+

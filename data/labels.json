@@ -1,0 +1,28 @@
+{
+  "en": {
+    "showcase": {
+      "triggerAria": "Play Sarah Johnson's personal introduction",
+      "triggerHint": "Introduction",
+      "eyebrow": "From My Desk",
+      "title": "The Miami Difference",
+      "caption": "How I guide clients from first viewing to closing day in South Florida.",
+      "modalAria": "Introduction video",
+      "closeAria": "Close introduction video",
+      "unavailable": "This message is being updated. Please check back shortly.",
+      "specialties": ["Luxury Listings", "First-Time Buyers", "South Florida"]
+    }
+  },
+  "ar": {
+    "showcase": {
+      "triggerAria": "تشغيل مقدمة سارة جونسون الشخصية",
+      "triggerHint": "مقدمة",
+      "eyebrow": "من مكتبي",
+      "title": "فرق ميامي",
+      "caption": "كيف أرشد العملاء من أول معاينة حتى يوم التسليم في جنوب فلوريدا.",
+      "modalAria": "فيديو تعريفي",
+      "closeAria": "إغلاق الفيديو التعريفي",
+      "unavailable": "يتم تحديث هذه الرسالة. يرجى المعاودة قريبًا.",
+      "specialties": ["عقارات فاخرة", "المشترون لأول مرة", "جنوب فلوريدا"]
+    }
+  }
+}
